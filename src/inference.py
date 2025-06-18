@@ -1,11 +1,8 @@
-# src/inference.py
-
 import joblib
 import pandas as pd
 from pathlib import Path
 from utils.logger import logger
 
-# Paths
 BASE = Path(__file__).resolve().parent
 MODEL_PATH = (BASE / ".." / "models" / "xgb_model.joblib").resolve()
 INPUT_PATH = (BASE / ".." / "data" / "input_data.csv").resolve()

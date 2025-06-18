@@ -1,5 +1,5 @@
 
-# 🕵️‍♂️ Fraud Detection & Monitoring Project
+# 🕵️‍♂️ Breeboost Fraud Detection
 
 This project builds a machine learning pipeline to detect fraudulent transactions and monitor data drift using [Evidently](https://github.com/evidentlyai/evidently).
 
