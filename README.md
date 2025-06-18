@@ -1,5 +1,7 @@
 # 🕵️‍♂️ BreeBoost – Real-Time Fraud Detection & Monitoring
 
+![breeboost](assets/breeboost.png)
+
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status: WIP](https://img.shields.io/badge/status-active-informational)]()
