@@ -10,7 +10,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 SRC_DIR = ROOT_DIR / "src"
 sys.path.insert(0, str(SRC_DIR))
 
-from inference import load_model, predict  # Assumes src/inference.py exists
+from src.inference import load_model, predict  # Assumes src/inference.py exists
 
 # Load model
 model = load_model()
