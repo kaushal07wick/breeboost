@@ -2,17 +2,15 @@ import polars as pl
 from pathlib import Path
 import os
 import numpy as np
+
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from utils.logger import logger  
 
-# Directory setup
-BASE = Path(__file__).resolve().parent.parent
-RAW = BASE / "data" / "raw" / "PS_20174392719_1491204439457_log.csv"
-PROC = BASE / "data" / "processed" / "paysim_cleaned.csv"
-
-PROC.parent.mkdir(parents=True, exist_ok=True)
-
+PROC = "data/processed/paysim_cleaned.csv"
 # Load the raw data
-def load_raw_data(path: Path = RAW) -> pl.DataFrame:
+def load_raw_data(path="data/raw/PS_20174392719_1491204439457_log.csv") -> pl.DataFrame:
     logger.info(f"Loading raw data from {path}")
     return pl.read_csv(path)
 
