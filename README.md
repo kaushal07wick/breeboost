@@ -1,14 +1,18 @@
+# 🕵️‍♂️ BreeBoost – Real-Time Fraud Detection & Monitoring
 
-# 🕵️‍♂️ Breeboost Fraud Detection
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Status: WIP](https://img.shields.io/badge/status-active-informational)]()
+[![Build](https://img.shields.io/badge/build-passing-brightgreen)]()
+[![Made with Evidently](https://img.shields.io/badge/Made%20with-Evidently-blueviolet?logo=evidently)](https://github.com/evidentlyai/evidently)
 
-This project builds a machine learning pipeline to detect fraudulent transactions and monitor data drift using [Evidently](https://github.com/evidentlyai/evidently).
+> End-to-end machine learning pipeline for fraud detection with **real-time simulation**, **data drift monitoring**, and **interactive dashboards**.
 
 ---
 
-## 📁 Project Structure
+## 🗂️ Project Structure
 
-```
-
+```text
 breeboost/
 ├── src/
 │   ├── inference.py            # Model inference logic
@@ -16,108 +20,149 @@ breeboost/
 │   │   └── logger.py           # Logging utility
 │   └── ...
 ├── monitoring/
-│   ├── reference.csv           # Historical reference data
-│   ├── production.csv          # New data with model predictions
+│   ├── reference.csv           # Clean data from training
+│   ├── production.csv          # New data + predictions
 │   ├── report.py               # Drift detection script
-│   └── reports/                # HTML reports saved here
+│   └── reports/
+│       └── report.html         # Generated drift report
 ├── data/
 │   └── processed/
-│       └── paysim\_cleaned.csv  # Cleaned dataset used for training/reference
+│       └── paysim_cleaned.csv  # Cleaned dataset
+├── app.py                      # Streamlit fraud dashboard
+├── requirements.txt
 └── README.md
+```
+
+---
+
+## 📊 Architecture Overview
+
+```mermaid
+flowchart TD
+    A[Cleaned Data] --> B[Model Inference]
+    B --> C[Predictions + Probabilities]
+    A --> D[Reference Data]
+    C --> E[Drift Detection]
+    D --> E
+    E --> F[HTML Report]
+
+    style A fill:#f9f,stroke:#333,stroke-width:1px
+    style B fill:#bbf,stroke:#333,stroke-width:1px
+    style C fill:#bfb,stroke:#333,stroke-width:1px
+    style D fill:#bbf,stroke:#333,stroke-width:1px
+    style E fill:#ffb,stroke:#333,stroke-width:1px
+    style F fill:#fc9,stroke:#333,stroke-width:1px
+
 
 ```
 
 ---
 
-## ✅ What Has Been Implemented
+## ✅ Features Implemented
 
-### 1. **Model Inference**
-- `inference.py` loads a trained XGBoost model and predicts fraud labels and probabilities.
-- Ensures inputs match training schema exactly.
-- Can be run as a standalone script for test predictions.
+### 🔍 1. **Fraud Detection Model**
 
-### 2. **Reference Data Creation**
-- Script extracts a clean `reference.csv` from the main dataset.
-- Renames target column (`isFraud` → `is_fraud`) if needed.
-- Saves the reference data in the correct format with required columns.
+* Trained XGBoost classifier
+* Input validation and prediction interface
+* Outputs label + fraud probability
 
-### 3. **Production Data Simulation**
-- `production.csv` includes:
-  - Input features
-  - Model prediction (`prediction`)
-  - Probability of fraud (`fraud_proba`)
-- Mimics what the model would see in a production pipeline.
+### 💻 2. **Streamlit Dashboard**
 
-### 4. **Monitoring with Evidently**
-- `report.py` runs a drift report comparing reference vs. production data.
-- Uses `DataDriftPreset` from Evidently.
-- Generates and saves an HTML report with timestamp.
-- Reports stored in `monitoring/reports/`.
+* Simulate transactions with input form
+* View prediction results and probabilities
+* Visualize important features and correlations
+
+### 📈 3. **Evidently Drift Monitoring**
+
+* Compares training vs production data
+* Visualizes drift for numerical features
+* Outputs full HTML diagnostics
+
+🔗 **[View Latest Drift Report](monitoring/reports/data_drift_20250617_123717.html)**
 
 ---
 
-## 🧪 How to Run
+## 🚀 Usage
 
-1. **Run model inference:**
-   ```bash
-   python src/inference.py
-    ```
-
-2. **Create reference data (one-time):**
-   ```bash
-   python src/utils/extract_ref.py
-   ```
-
-3. **Add predictions to production data**
-   (Use inference module on new samples and save as `production.csv`)
-
-4. **Generate monitoring report:**
-
-   ```bash
-   python monitoring/report.py
-   ```
-
-5. **View report:**
-   Open the generated HTML in `monitoring/reports/` in your browser.
-
----
-
-## 🛠️ Requirements
-
-* Python 3.8+
-* `pandas`
-* `xgboost`
-* `joblib`
-* `evidently`
-* `scipy`
-
-Install with:
+### 🔧 Install Requirements
 
 ```bash
-pip install pandas xgboost joblib evidently scipy
+pip install -r requirements.txt
+```
+
+### 🧠 Run Inference
+
+```bash
+python src/inference.py
+```
+
+### 🧾 Generate Reference Dataset
+
+```bash
+python src/utils/extract_ref.py
+```
+
+### 📦 Simulate Production Data
+
+Use the dashboard or inference module to generate rows for `production.csv`.
+
+### 📉 Run Drift Monitoring
+
+```bash
+python monitoring/report.py
+```
+
+### 🖥️ Launch Streamlit App
+
+```bash
+streamlit run app.py
 ```
 
 ---
 
-## 🚀 Next Steps
+## 🔢 Key Features for Drift Detection
 
-* [ ] Automate inference + production CSV generation
-* [ ] Add concept/performance drift monitoring
-* [ ] Set alerts for severe drift
-* [ ] Dockerize and deploy
+* `amount`, `oldbalanceOrg`, `newbalanceOrig`
+* `errorBalanceOrig`, `errorBalanceDest`
+* `hour`, `day`, `is_large_transaction`
+
+---
+
+## 📦 Requirements
+
+* Python 3.8+
+* pandas, xgboost, joblib
+* evidently, seaborn, matplotlib
+* streamlit
+
+Install everything:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🛣️ Roadmap
+
+* [ ] Performance drift monitoring (F1, recall)
+* [ ] Notification triggers (e.g. Slack alerts)
+* [ ] CI/CD with GitHub Actions
+* [ ] Dockerization + cloud deployment
+* [ ] Add feature importance explanation (e.g. SHAP)
 
 ---
 
 ## 📌 Notes
 
-* Be sure that `src` is in your Python path (or run scripts from the project root).
-* Fix any drift-related warnings in data by examining the generated report.
+* Run scripts from the project root for relative paths to resolve.
+* Check `monitoring/reports/report.html` regularly to evaluate input stability.
+* You can customize the model threshold and feature set in `inference.py`.
 
 ---
 
-> *This project is a work-in-progress and designed for educational and experimental purposes.*
+## 📜 License
 
-```
+This project is licensed under the [MIT License](LICENSE).
 
-Let me know if you'd like this in a downloadable file, or expanded with diagrams, badges, etc.
-```
+---

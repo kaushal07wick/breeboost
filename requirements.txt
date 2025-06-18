@@ -1,0 +1,11 @@
+altair
+streamlit
+evidently
+kaggle
+kagglehub
+matplotlib
+numpy
+polars
+scikit-learn
+seaborn
+xgboost
