@@ -1,0 +1,2 @@
+{"timestamp":"2025-11-22T08:00:00Z","incident_type":"Data Drift","severity":"P2","details":{"drift_score":0.27,"features":["amount","oldbalanceOrg"]},"status":"open","notes":""}
+{"timestamp":"2025-11-21T16:32:10Z","incident_type":"Missing Feature","severity":"P1","details":{"missing_columns":["merchant_id"],"rows_affected_pct":0.12},"status":"resolved","notes":"Upstream ETL fixed; re-run ingestion"}
